@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: drone_soc_db
+    environment:
+      POSTGRES_DB: drone_soc
+      POSTGRES_USER: drone_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-DroneSoc2026!}
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U drone_admin -d drone_soc"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: drone_soc_api
+    ports:
+      - "8088:8000"
+    environment:
+      DATABASE_URL: postgresql://drone_admin:${DB_PASSWORD:-DroneSoc2026!}@postgres:5432/drone_soc
+      JWT_SECRET: ${JWT_SECRET:-bserc-drone-soc-secret-key-change-in-production}
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 480
+      UPLOAD_DIR: /app/datasets
+      MODEL_DIR: /app/ml_models
+      REPORT_DIR: /app/reports
+      CORS_ORIGINS: http://localhost:3001
+    volumes:
+      - ./datasets:/app/datasets
+      - ./reports:/app/reports
+      - ./ml_models:/app/ml_models
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8088
+    container_name: drone_soc_ui
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8088
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

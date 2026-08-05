@@ -1,0 +1,13 @@
+{
+  "name": "drone-soc-root",
+  "version": "1.0.0",
+  "description": "Root workspace proxy for Drone SOC platform scripts",
+  "scripts": {
+    "install-all": "npm install --prefix frontend",
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "docker-up": "docker compose up --build -d",
+    "docker-down": "docker compose down",
+    "seed-db": "docker exec drone_soc_api python /app/seed_users.py"
+  }
+}

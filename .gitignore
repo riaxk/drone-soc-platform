@@ -1,0 +1,33 @@
+# Frontend dependencies and builds
+frontend/node_modules/
+frontend/.next/
+
+# Node
+node_modules/
+.next/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Generated project data
+datasets/*
+reports/*
+ml_models/*
+
+# Keep empty folders if placeholder files exist
+!datasets/.gitkeep
+!reports/.gitkeep
+!ml_models/.gitkeep
+
+# Operating system files
+.DS_Store
+Thumbs.db
