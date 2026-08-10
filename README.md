@@ -203,21 +203,15 @@ Create a PostgreSQL database named `drone_soc` and run the schema definitions in
 
 ## 📊 Sample Datasets
 
-The repository includes sample CSV datasets for testing the Drone SOC Platform:
+For quick testing, the repository includes three ready-to-use UAV network traffic datasets:
 
-- `drone_network_data.csv` — Sample UAV network traffic dataset for traffic analysis and ML model training.
-- `drone_normal_flight.csv` — Sample network traffic representing normal UAV flight activity.
+- `drone_network_data.csv` — Mixed UAV network traffic suitable for traffic analysis and ML model training.
+- `drone_normal_flight.csv` — Sample traffic representing normal UAV flight activity.
 - `drone_jamming_attack.csv` — Sample traffic representing a simulated UAV jamming attack scenario.
 
-### Using the Sample Data
+These datasets can be uploaded directly through the **Datasets** module, allowing the platform to be tested without generating new telemetry first.
 
-1. Start the Drone SOC Platform.
-2. Navigate to the **Datasets** module.
-3. Upload one of the provided CSV files.
-4. Use the uploaded dataset for traffic analysis and ML-based attack detection.
-
-These files are provided as sample/testing data and are kept separate from runtime uploads, so using **Reset Demo Data** does not remove the original sample CSV files.
-
+> **Note:** These source CSV files are stored separately from runtime uploads and are not deleted when **Reset Demo Data** is used.
 ---
 
 ## Verification & Walkthrough
